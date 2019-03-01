@@ -2,28 +2,26 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class TCPClient {
     public static void main(String x[]) throws Exception{
-        String sentence;
-        String modifiedSentence;
-        BufferedReader inFromUser = new BufferedReader(
-                new InputStreamReader(System.in)
-        );
-        Socket clientSocket = new Socket("localhost", 6789);
-        DataOutputStream outToServer = new DataOutputStream(
-                clientSocket.getOutputStream()
-        );
+
+        String outputServer;
+
+        Scanner input = new Scanner(System.in);
+        System.out.println("digite o host para conexão");
+        String host = input.next();
+        Socket clientSocket = new Socket(host, 8000);
+
 
         BufferedReader inFromServer = new BufferedReader(
                 new InputStreamReader(
                         clientSocket.getInputStream()
                 )
         );
-        sentence = inFromUser.readLine();
-        outToServer.writeBytes(sentence+"\n");
-        modifiedSentence = inFromServer.readLine();
-        System.out.println("FROM SERVER: "+modifiedSentence);
+        outputServer = inFromServer.readLine();
+        System.out.println("conectou no servidor: "+outputServer);
         clientSocket.close();
     }
 }
